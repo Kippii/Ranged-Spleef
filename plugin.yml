@@ -3,3 +3,6 @@ main: me.kippy.spleef.Core
 version: 1.0
 description: >
              Play ranged spleef
+commands:
+  itemdrop:
+    description: Switch whether items drop or not in this plugin.

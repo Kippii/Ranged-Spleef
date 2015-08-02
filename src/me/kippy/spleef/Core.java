@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,10 +24,18 @@ public class Core extends JavaPlugin implements Listener {
 		Player p = e.getPlayer();
 		if(e.getAction() == Action.LEFT_CLICK_AIR) {
 			Block b = p.getTargetBlock(null, 200);
-			b.setType(Material.AIR);
+			if(getConfig().getBoolean("ItemDrop") == true) {
+				b.breakNaturally();
+			}else{
+				b.setType(Material.AIR);
+			}
 		}else if(e.getAction() == Action.LEFT_CLICK_BLOCK) {
 			Block b = e.getClickedBlock();
-			b.setType(Material.AIR);
+			if(getConfig().getBoolean("ItemDrop") == true) {
+				b.breakNaturally();
+			}else{
+				b.setType(Material.AIR);
+			}
 		}
 	}
 	
@@ -39,6 +49,19 @@ public class Core extends JavaPlugin implements Listener {
 		this.logger.info("Ranged Spleef has been enabled!");
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(this, this);
+		saveDefaultConfig();
+		reloadConfig();
+	}
+	
+	public boolean onCommand(CommandSender sender, Command cmd, String cl, String[] args) {
+		if(cl.equalsIgnoreCase("itemdrop")) {
+			if(getConfig().getBoolean("ItemDrop") == true) {
+				getConfig().set("ItemDrop", false);
+			}else{
+				getConfig().set("ItemDrop", true);
+			}
+		}
+		return false;
 	}
 
 }
