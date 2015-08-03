@@ -24,17 +24,23 @@ public class Core extends JavaPlugin implements Listener {
 		Player p = e.getPlayer();
 		if(e.getAction() == Action.LEFT_CLICK_AIR) {
 			Block b = p.getTargetBlock(null, 200);
-			if(getConfig().getBoolean("ItemDrop") == true) {
-				b.breakNaturally();
-			}else{
-				b.setType(Material.AIR);
+			int Distance = getConfig().getInt("MaxDistance");
+			if((Math.sqrt((Math.pow((b.getLocation().getX()) - (p.getLocation().getX()), 2) + (Math.pow((b.getLocation().getY()) - (p.getLocation().getY() + 1), 2)) + (Math.pow((b.getLocation().getZ()) - (p.getLocation().getZ()), 2))))) <= Distance) {
+				if(getConfig().getBoolean("ItemDrop") == true) {
+					b.breakNaturally();
+				}else{
+					b.setType(Material.AIR);
+				}
 			}
 		}else if(e.getAction() == Action.LEFT_CLICK_BLOCK) {
-			Block b = e.getClickedBlock();
-			if(getConfig().getBoolean("ItemDrop") == true) {
-				b.breakNaturally();
-			}else{
-				b.setType(Material.AIR);
+			Block b1 = e.getClickedBlock();
+			int Distance1 = getConfig().getInt("MaxDistance");
+			if((Math.sqrt((Math.pow((b1.getLocation().getX()) - (p.getLocation().getX()), 2) + (Math.pow((b1.getLocation().getY()) - (p.getLocation().getY() + 1), 2)) + (Math.pow((b1.getLocation().getZ()) - (p.getLocation().getZ()), 2))))) <= Distance1) {
+				if(getConfig().getBoolean("ItemDrop") == true) {
+					b1.breakNaturally();
+				}else{
+					b1.setType(Material.AIR);
+				}
 			}
 		}
 	}
